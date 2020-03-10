@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Dashboard</div>
                 <div class="card-body">
-                  <form class="" action="index.html" method="post" id="paymentForm">
+                  <form class="" action="{{route('pay')}}" method="post" id="paymentForm">
                     @csrf
                     <div class="row">
                       <div class="col-auto">
