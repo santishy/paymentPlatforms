@@ -33,7 +33,11 @@ class PaypalService{
     $response = $this->makeRequest('POST','/v2/checkout/orders',
                                     [],
                                     [
-                                      "intent" => 'CAPTURE'
+                                      "intent" => 'CAPTURE',
+                                      "application_context" => [
+                                        "return_url" => route('approval'),
+                                        "cancel_url" => route('cancelled'),
+                                      ]
                                     ],
                                     [],
                                     $isJsonRequest = true);
