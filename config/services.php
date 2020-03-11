@@ -13,7 +13,11 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    'paypal' => [
+      'base_url' => env('PAYPAL_BASE_URL'),
+      'client_id' => env('PAYPAL_CLIENT_ID'),
+      'client_secret' => env('PAYPAL_CLIENT_SECRET')
+    ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
