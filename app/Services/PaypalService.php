@@ -46,7 +46,7 @@ class PaypalService{
                                         0 => [
                                           "amount" => [
                                             "currency_code" => strtoupper($currency),
-                                            "value" => $value
+                                            "value" => round($value * $factor = $this->resolveFactor($currency)) / $factor
                                           ]
                                         ]
                                       ]
@@ -62,6 +62,13 @@ class PaypalService{
                                    [],
                                    ['Content-Type' => 'application/json']);
     return $response;
+  }
+  public function resolveFactor($currency){
+    $zeroDecimalCurrency = ['JPY'];
+    if(in_array(strtoupper($currency),$zeroDecimalCurrency)){
+      return 1;
+    }
+    return 100;
   }
   public function handlePayment(Request $request){
     $response = $this->createOrder($request->value,$request->currency);

@@ -16,7 +16,8 @@ return [
     'paypal' => [
       'base_url' => env('PAYPAL_BASE_URL'),
       'client_id' => env('PAYPAL_CLIENT_ID'),
-      'client_secret' => env('PAYPAL_CLIENT_SECRET')
+      'client_secret' => env('PAYPAL_CLIENT_SECRET'),
+      'class' => App\Services\PaypalService::class,
     ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
