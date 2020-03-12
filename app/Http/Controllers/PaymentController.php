@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Resolvers\PaymentPlatformResolve;
 use App\Services\PaypalService;
 
 class PaymentController extends Controller
 {
-    public function pay(Request $request){
+  protected $paymentPlatformResolve;
+
+  public function __construct(PaymentPlatformResolve $paymentPlatformResolve){
+    $this->middleware('auth');
+    $this->paymentPlatformResolve = $paymentPlatformResolve;
+  }
+  public function pay(Request $request){
 
       $rules = [
         'value' => ['required','min:5','numeric'],
@@ -17,7 +24,7 @@ class PaymentController extends Controller
 
       $request->validate($rules);
 
-      $paymentPlatform = resolve(PaypalService::class);
+      $paymentPlatform = $this->paymentPlatformResolve->serviceResolve($request->payment_platform);
 
       return $paymentPlatform->handlePayment($request);
     }
