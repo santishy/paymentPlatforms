@@ -5,14 +5,14 @@ use Illuminate\Http\Request;
 
 class PaypalService{
 
-  protected $baseUrl;
+  protected $baseUri;
   protected $client_id;
   protected $client_secret;
 
   use ConsumesExternalServices;
 
   public function __construct(){
-    $this->baseUrl = config('services.paypal.base_url');
+    $this->baseUri = config('services.paypal.base_uri');
     $this->client_id = config('services.paypal.client_id');
     $this->client_secret = config('services.paypal.client_secret');
   }

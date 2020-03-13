@@ -26,14 +26,22 @@ class PaymentController extends Controller
 
       $paymentPlatform = $this->paymentPlatformResolve->serviceResolve($request->payment_platform);
 
+      session()->put('paymentPlatform_id',$request->payment_platform);
+
       return $paymentPlatform->handlePayment($request);
     }
 
     public function approval(){
 
-        $paymentPlatform = resolve(PaypalService::class);
+        if(session()->has('paymentPlatform_id')){
 
-        return $paymentPlatform->handleApprove();
+          $paymentPlatform = $this->paymentPlatformResolve->serviceResolve(session()->get('paymentPlatform_id'));
+
+          return $paymentPlatform->handleApprove();
+        }
+        return redirect()
+              ->route('home')
+              ->withErrors(['payment' => 'we cannot retrieve your payment platform. Try again, please.']);
     }
     public function cancelled(){
       return redirect()
