@@ -39,6 +39,7 @@
 </div>
 <div class="form-text text-muted" id="card-errors" role="alert">
 </div>
+<input type="hidden" name="payment_method" id="payment-method">
 
 @push('scripts')
   <script src="https://js.stripe.com/v3/">
@@ -49,5 +50,27 @@
     const elements = stripe.elements({locale:'en'});
     const cardElement = elements.create('card');
     cardElement.mount('#card-element')
+  </script>
+  <script>
+    const form = document.getElementById('paymentForm');
+    const payButton = document.getElementById('payButton');
+    payButton.addEventListener('click', async(e) => {
+      console.log('hola')
+      e.preventDefault();
+      const {paymentMethod,error} = await stripe.createMethodPayment(
+
+        'card',cardElement,{
+          billing_details:{
+            'name':"{{auth()->user()->name}}",
+            'email' : "{{auth()->user()->email}}"
+          }
+        });
+        if(error){
+          const displayErrors = document.getElementById('card-erros');
+          displayErrors.textContent(error.message)
+        }else{
+          document.getElementById('payment-method').value = paymentMethod.id;
+        }
+    })
   </script>
 @endpush
