@@ -42,19 +42,21 @@
 <input type="hidden" name="payment_method" id="payment-method">
 
 @push('scripts')
-  <script src="https://js.stripe.com/v3/">
-  </script>
+  <script src="https://js.stripe.com/v3/"></script>
   <script>
+  console.log('hola mundo')
+  const form = document.getElementById('paymentForm');
+  const payButton = document.getElementById('payButton');
+  payButton.addEventListener('click',function(){
+    alert('hid')
+  },false)
     const stripe = Stripe('{{config('services.stripe.key')}}');
-    console.log(stripe)
     const elements = stripe.elements({locale:'en'});
     const cardElement = elements.create('card');
     cardElement.mount('#card-element')
-  </script>
-  <script>
-    const form = document.getElementById('paymentForm');
-    const payButton = document.getElementById('payButton');
-    payButton.addEventListener('click', async(e) => {
+
+
+    payButton.addEventListener("click", async(e) => {
       console.log('hola')
       e.preventDefault();
       const {paymentMethod,error} = await stripe.createMethodPayment(
