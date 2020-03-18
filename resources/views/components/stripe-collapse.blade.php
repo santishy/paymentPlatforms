@@ -52,25 +52,29 @@
   </script>
   <script>
     const form = document.getElementById('paymentForm');
-    const payButton = document.getElementById('payButton');
+    if(form.elements.payment_platform.value === {{$platform->id}}){
 
-    payButton.addEventListener("click", async(e) => {
+      const payButton = document.getElementById('payButton');
 
-      e.preventDefault();
-      const {paymentMethod,error} = await stripe.createPaymentMethod(
+      payButton.addEventListener("click", async(e) => {
 
-        'card',cardElement,{
-          billing_details:{
-            'name':"{{auth()->user()->name}}",
-            'email' : "{{auth()->user()->email}}"
+        e.preventDefault();
+        const {paymentMethod,error} = await stripe.createPaymentMethod(
+
+          'card',cardElement,{
+            billing_details:{
+              'name':"{{auth()->user()->name}}",
+              'email' : "{{auth()->user()->email}}"
+            }
+          });
+          if(error){
+            const displayErrors = document.getElementById('card-errors');
+            displayErrors.textContent = error.message;
+          }else{
+            document.getElementById('payment-method').value = paymentMethod.id;
           }
-        });
-        if(error){
-          const displayErrors = document.getElementById('card-errors');
-          displayErrors.textContent = error.message;
-        }else{
-          document.getElementById('payment-method').value = paymentMethod.id;
-        }
-    })
+      })
+    }
+
   </script>
 @endpush
