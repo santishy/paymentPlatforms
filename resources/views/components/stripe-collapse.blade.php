@@ -44,22 +44,20 @@
 @push('scripts')
   <script src="https://js.stripe.com/v3/"></script>
   <script>
-  console.log('hola mundo')
-  const form = document.getElementById('paymentForm');
-  const payButton = document.getElementById('payButton');
-  payButton.addEventListener('click',function(){
-    alert('hid')
-  },false)
+
     const stripe = Stripe('{{config('services.stripe.key')}}');
     const elements = stripe.elements({locale:'en'});
     const cardElement = elements.create('card');
     cardElement.mount('#card-element')
-
+  </script>
+  <script>
+    const form = document.getElementById('paymentForm');
+    const payButton = document.getElementById('payButton');
 
     payButton.addEventListener("click", async(e) => {
-      console.log('hola')
+
       e.preventDefault();
-      const {paymentMethod,error} = await stripe.createMethodPayment(
+      const {paymentMethod,error} = await stripe.createPaymentMethod(
 
         'card',cardElement,{
           billing_details:{
@@ -68,8 +66,8 @@
           }
         });
         if(error){
-          const displayErrors = document.getElementById('card-erros');
-          displayErrors.textContent(error.message)
+          const displayErrors = document.getElementById('card-errors');
+          displayErrors.textContent = error.message;
         }else{
           document.getElementById('payment-method').value = paymentMethod.id;
         }

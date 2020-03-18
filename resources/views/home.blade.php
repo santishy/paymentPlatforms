@@ -62,7 +62,7 @@
                       </div>
                     </div>
                     <div class="text-center mt-3">
-                      <button type="button" id="payButton" class="btn btn-primary btn-lg">Pay</button>
+                      <button type="submit" id="payButton" class="btn btn-primary btn-lg">Pay</button>
                     </div>
                   </form>
                 </div>
