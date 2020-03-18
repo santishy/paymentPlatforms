@@ -52,12 +52,9 @@
   </script>
   <script>
     const form = document.getElementById('paymentForm');
-    if(form.elements.payment_platform.value === {{$platform->id}}){
-
-      const payButton = document.getElementById('payButton');
-
+    const payButton = document.getElementById('payButton');
       payButton.addEventListener("click", async(e) => {
-
+        if(form.elements.payment_platform.value === "{{$platform->id}}" ){
         e.preventDefault();
         const {paymentMethod,error} = await stripe.createPaymentMethod(
 
@@ -73,8 +70,8 @@
           }else{
             document.getElementById('payment-method').value = paymentMethod.id;
           }
+        }
       })
-    }
 
   </script>
 @endpush
