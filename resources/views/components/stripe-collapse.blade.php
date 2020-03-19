@@ -69,6 +69,7 @@
             displayErrors.textContent = error.message;
           }else{
             document.getElementById('payment-method').value = paymentMethod.id;
+            form.submit();
           }
         }
       })
