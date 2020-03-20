@@ -34,7 +34,13 @@ return [
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
-
+    'mercadopago' =>[
+      'base_uri' => env('MERCADO_PAGO_BASE_URI'),
+      'key' => env('MERCADO_PAGO_KEY'),
+      'secret' => env('MERCADO_PAGO_SECRET')
+      'class' => App\Services\MercadoPagoService::class,
+      'base_currency' => 'mxn'
+    ]
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
