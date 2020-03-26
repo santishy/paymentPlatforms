@@ -38,7 +38,22 @@ class MercadoPagoService{
     return 100;
   }
   public function handlePayment(Request $request){
-    dd($request->all());
+    $request->validate([
+      'paymentMethodId' => 'required',
+      'cardToken' => 'required',
+      'email' => 'required',
+    ]);
+    $payment = $this->createPayment($request->value,$request->currency,$request->paymentMethodId,$request->cardToken,$request->email);
+    if($payment->status == 'approved'){
+      $name = $payment->payer->name;
+      $currency = strtoupper($payment->currency_id);
+      $amount = number_format($payment->transaction_amount,2);
+      $originalCurrency = $request->currency;
+      $originalAmount = $request->value;
+      return redirect(route('home'))
+              ->withSuccess(["payment" => "Thanks {$name} we received your {$originalAmount}{$originalCurrency} payment ({$amount}{$currency)."]);
+    }
+  return redirect('home')->withErrors('We were unable to confirm your payment. Try again, please');
   }
   public function createPayment($value,$currency,$paymentMethodId,$cardToken,$email,$installments = 1){
     return $this->makeRequest('POST',
