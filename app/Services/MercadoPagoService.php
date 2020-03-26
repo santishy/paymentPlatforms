@@ -40,7 +40,24 @@ class MercadoPagoService{
   public function handlePayment(Request $request){
     dd($request->all());
   }
-
+  public function createPayment($value,$currency,$paymentMethodId,$cardToken,$email,$installments = 1){
+    return $this->makeRequest('POST',
+        '/v1/payments',
+        [],
+        [
+          'payer' => [
+            'email' => $email
+          ],
+          'binary_mode' => true,
+          'transaction_amount' => round($value * $this->resolveFactor($currency)),
+          'payment_method_id' => $paymentMethodId,
+          'token' => $cardToken,
+          'installments' => $installments,
+          'statement_descriptor' => config('app.name')
+        ],
+        [],
+        $isJson = true);
+  }
 }
 
 ?>

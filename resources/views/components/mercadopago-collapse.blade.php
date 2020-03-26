@@ -83,11 +83,10 @@
           const error = document.getElementById('paymentErros');
           error.textContent = response.cause[0].description;
       }else{
-        setCardNetwork();
+
         cardToken = document.getElementById('cardToken');
         cardToken.value = response.id;
-
-
+        setCardNetwork();
       }
     }
   </script>
